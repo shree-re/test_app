@@ -1,0 +1,59 @@
+.container
+  %br
+  .row
+    .col-md-6
+      %h4.text-center Patient
+      = form_for(@patient) do |f|
+        .form-group
+          = f.label :name
+          = f.text_field :name, class: "form-control"
+        .form-group
+          = f.label :phone
+          = f.text_field :phone, class: "form-control"
+        .form-group
+          = f.submit "Submit", class: "btn btn-primary btn-block"
+    .col-md-6
+      %h4.text-center Doctor
+      = form_for(@doctor) do |f|
+        .form-group
+          = f.label :name
+          = f.text_field :name, class: "form-control"
+        .form-group
+          = f.label :phone
+          = f.text_field :phone, class: "form-control"
+        .form-group
+          = f.label :specialization
+          = f.text_field :specialization, class: "form-control"
+        .form-group
+          = f.submit "Submit", class: "btn btn-primary btn-block"
+  %hr
+  .row
+    .col-md-6
+      %h4.text-center Apointment
+      = form_for(@appointment) do |f|
+        .form-group
+          = f.label :doctor_id, 'Doctor Name'
+          = f.select :doctor_id, options_for_select(Doctor.all.pluck(:name, :id), nil), class: "form-control", "data-live-search" => "true"
+        .form-group
+          = f.label :patient_id, 'Patient Name'
+          = f.select :patient_id, options_for_select(Patient.all.pluck(:name, :id), nil), class: "form-control", "data-live-search" => "true"
+        .form-group
+          = f.label :disease
+          = f.text_field :disease, class: "form-control"
+        .form-group
+          = f.submit "Submit", class: "btn btn-primary btn-block"
+    .col-md-6
+      %h4.text-center View Apointments
+      .table-responsive.table-sm.table-hover
+        %table.table.text-center
+          %thead
+            %tr
+              %th Patient Name
+              %th Doctor Name
+              %th Disease
+          %tbody
+            - @appointments.each do |appointment|
+              %tr
+                %td= appointment.patient.name
+                %td= appointment.doctor.name
+                %td= appointment.disease
